@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemo.entities.concrete;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +25,6 @@ public class Product {
 
     @ManyToOne()
     @JoinColumn(name="category_id")
+    @JsonIgnoreProperties("products")
     private Category category;
 }
