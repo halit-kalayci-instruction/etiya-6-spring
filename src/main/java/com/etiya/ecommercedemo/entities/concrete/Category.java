@@ -30,3 +30,13 @@ public class Category {
     @JsonIgnoreProperties("category")
     private List<Product> products;
 }
+// DTO
+// Data Transfer Object
+
+// CategoryForAddDto => AddCategoryRequest =>
+// private String name;
+
+// Category => name
+
+// Request Response Pattern
+// AddCategoryRequest AddCategoryResponse
