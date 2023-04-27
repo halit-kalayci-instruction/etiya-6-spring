@@ -5,21 +5,21 @@ import com.etiya.ecommercedemo.business.dtos.requests.category.AddCategoryReques
 import com.etiya.ecommercedemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommercedemo.core.exceptions.BusinessException;
+import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.entities.concrete.Category;
 import com.etiya.ecommercedemo.repositories.abstracts.CategoryDao;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryManager implements CategoryService {
     private CategoryDao categoryDao;
+    private ModelMapperService modelMapperService;
 
-    @Autowired
-    public CategoryManager(CategoryDao categoryDao) {
-        this.categoryDao = categoryDao;
-    }
 
     @Override
     public List<ListCategoryResponse> getAll() {
@@ -41,14 +41,18 @@ public class CategoryManager implements CategoryService {
 
         // AddCategoryRequest => Category => AddCategoryResponse
         // Manual Mapping => Auto Mapping => ModelMapper
-        Category category = new Category();
-        category.setName(addCategoryRequest.getName());
-        // Mapping
+        //Category category = new Category();
+        //category.setName(addCategoryRequest.getName());
+        // Auto Mapping
+        Category category = modelMapperService.getMapper().map(addCategoryRequest,Category.class);
         categoryDao.save(category);
 
-        AddCategoryResponse response = new AddCategoryResponse();
-        response.setId(category.getId());
-        response.setName(category.getName());
+        // Manual
+        //AddCategoryResponse response = new AddCategoryResponse();
+        //response.setId(category.getId());
+        //response.setName(category.getName());
+        // Auto
+        AddCategoryResponse response = modelMapperService.getMapper().map(category, AddCategoryResponse.class);
         return response;
     }
 }
