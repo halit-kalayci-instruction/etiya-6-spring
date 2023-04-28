@@ -52,5 +52,4 @@ public class EcommerceDemoApplication {
 }
 // Result Yapısı
 // Multi-Language
-
 // Unit Test => Mock, Business Kodlar (SALI)
