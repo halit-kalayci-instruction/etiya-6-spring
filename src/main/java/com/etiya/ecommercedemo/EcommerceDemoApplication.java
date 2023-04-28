@@ -31,6 +31,9 @@ public class EcommerceDemoApplication {
 		SpringApplication.run(EcommerceDemoApplication.class, args);
 	}
 
+	// Boilerplate => Basmakalıp
+
+	// KAYNAK ? Ben dil desteğini nereden sağlayacağım.
 	@Bean
 	public ResourceBundleMessageSource bundleMessageSource(){
 		// Veritabanı?
@@ -41,6 +44,8 @@ public class EcommerceDemoApplication {
 		messageSource.setBasename("messages");
 		return messageSource;
 	}
+
+	// Kullanıcıdan kullanmak istediği dili nasıl konfigüre etmeli?
 
 	@Bean
 	public LocaleResolver localeResolver(){
@@ -82,3 +87,8 @@ public class EcommerceDemoApplication {
 
 }
 // Unit Test => Mock, Business Kodlar (SALI)
+// Kodu kodla test etmek
+
+// sana hali hazırda bir kategori verdiğimde bana "bu kategori zaten mevcut" exceptionı fırlat
+// Mocklama
+// Mock Object

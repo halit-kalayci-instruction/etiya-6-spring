@@ -38,6 +38,8 @@ public class CategoryManager implements CategoryService {
     public AddCategoryResponse add(AddCategoryRequest addCategoryRequest) throws Exception {
         // validation, business rules
         Category categoryToFind = categoryDao.findByName(addCategoryRequest.getName());
+        // Giyim => null
+        // Elektronik = new Category();
         if(categoryToFind != null)
             // new BusinessException();
             throw new BusinessException(messageSource.getMessage("categoryExists",null, LocaleContextHolder.getLocale()));

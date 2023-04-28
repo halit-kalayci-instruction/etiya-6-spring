@@ -5,6 +5,7 @@ import com.etiya.ecommercedemo.business.dtos.requests.product.AddProductRequest;
 import com.etiya.ecommercedemo.business.dtos.responses.product.AddProductResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.product.ListProductResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.product.ProductDetailResponse;
+import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperManager;
 import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.core.utils.result.DataResult;
 import com.etiya.ecommercedemo.core.utils.result.SuccessDataResult;
@@ -21,8 +22,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ProductManager implements ProductService {
-    private ProductDao productDao;
-    private ModelMapperService modelMapperService;
+    private final ProductDao productDao;
+    private final ModelMapperService modelMapperService;
 
     @Override
     public DataResult<AddProductResponse> add(AddProductRequest addProductRequest) {
