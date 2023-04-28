@@ -10,6 +10,8 @@ import com.etiya.ecommercedemo.entities.concrete.Category;
 import com.etiya.ecommercedemo.repositories.abstracts.CategoryDao;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
     private CategoryDao categoryDao;
     private ModelMapperService modelMapperService;
+
+    private MessageSource messageSource;
 
 
     @Override
@@ -36,7 +40,7 @@ public class CategoryManager implements CategoryService {
         Category categoryToFind = categoryDao.findByName(addCategoryRequest.getName());
         if(categoryToFind != null)
             // new BusinessException();
-            throw new BusinessException("Böyle bir kategori zaten mevcut");
+            throw new BusinessException(messageSource.getMessage("categoryExists",null, LocaleContextHolder.getLocale()));
         // Category oluşturmam gerekli
 
         // AddCategoryRequest => Category => AddCategoryResponse

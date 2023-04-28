@@ -7,6 +7,7 @@ import com.etiya.ecommercedemo.business.dtos.responses.product.ListProductRespon
 import com.etiya.ecommercedemo.business.dtos.responses.product.ProductDetailResponse;
 import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.core.utils.result.DataResult;
+import com.etiya.ecommercedemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommercedemo.entities.concrete.Category;
 import com.etiya.ecommercedemo.entities.concrete.Product;
 import com.etiya.ecommercedemo.repositories.abstracts.ProductDao;
@@ -40,7 +41,7 @@ public class ProductManager implements ProductService {
         // Product => oluştururken değerleri okuyacağım instance
         // new AddProductResponse();
         AddProductResponse response = modelMapperService.getMapper().map(product, AddProductResponse.class);
-        return new DataResult<AddProductResponse>(response, true, "Ürün eklendi.");
+        return new SuccessDataResult<>(response,"Ürün eklendi.");
     }
 
     @Override

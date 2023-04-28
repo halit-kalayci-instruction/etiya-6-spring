@@ -6,10 +6,7 @@ import com.etiya.ecommercedemo.business.dtos.responses.category.AddCategoryRespo
 import com.etiya.ecommercedemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommercedemo.entities.concrete.Category;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class CategoriesController {
     }
 
     @PostMapping("")
-    public AddCategoryResponse add(AddCategoryRequest addCategoryRequest) throws Exception {
+    public AddCategoryResponse add(@RequestBody AddCategoryRequest addCategoryRequest) throws Exception {
        return categoryService.add(addCategoryRequest);
     }
 }
