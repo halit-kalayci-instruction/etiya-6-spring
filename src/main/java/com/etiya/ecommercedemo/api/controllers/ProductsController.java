@@ -26,12 +26,12 @@ public class ProductsController {
     }
 
     @GetMapping("")
-    public List<ListProductResponse> getAll(){
+    public DataResult<List<ListProductResponse>> getAll(){
         return productService.getAll();
     }
 
     @GetMapping("{id}")
-    public ProductDetailResponse getById(@PathVariable int id){
+    public DataResult<ProductDetailResponse> getById(@PathVariable int id){
         return productService.getById(id);
     }
 

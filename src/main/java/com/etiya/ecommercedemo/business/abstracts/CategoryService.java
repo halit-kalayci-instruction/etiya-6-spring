@@ -4,6 +4,7 @@ import com.etiya.ecommercedemo.business.dtos.requests.category.AddCategoryReques
 import com.etiya.ecommercedemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommercedemo.core.utils.result.DataResult;
+import com.etiya.ecommercedemo.core.utils.result.Result;
 import com.etiya.ecommercedemo.entities.concrete.Category;
 
 import java.util.List;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface CategoryService {
     List<ListCategoryResponse> getAll();
     AddCategoryResponse add(AddCategoryRequest addCategoryRequest) throws Exception;
+    Result categoryWithIdShouldExists(int categoryId);
 }

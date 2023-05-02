@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProductService {
     DataResult<AddProductResponse> add(AddProductRequest addProductRequest);
 
-    List<ListProductResponse> getAll();
+    DataResult<List<ListProductResponse>> getAll();
 
-    ProductDetailResponse getById(int id);
+    DataResult<ProductDetailResponse> getById(int id);
 }
