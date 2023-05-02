@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo;
 
 import com.etiya.ecommercedemo.core.exceptions.BusinessException;
+import com.etiya.ecommercedemo.core.exceptions.NotFoundException;
 import com.etiya.ecommercedemo.core.utils.result.ErrorResult;
 import com.etiya.ecommercedemo.core.utils.result.Result;
 import org.modelmapper.ModelMapper;
@@ -64,13 +65,22 @@ public class EcommerceDemoApplication {
 	}
 
 	@ExceptionHandler({BusinessException.class})
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Result handleBusinessException(BusinessException exception)
 	{
 		return new ErrorResult(exception.getMessage());
 	}
 
+	// 404 not found
+	@ExceptionHandler({NotFoundException.class})
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public Result handleNotFoundException(NotFoundException exception){
+		return new ErrorResult(exception.getMessage());
+	}
+
+
 	// TODO
+	// Result yapısı ve multi-language.
 	@ExceptionHandler({MethodArgumentNotValidException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Object handleValidationException(MethodArgumentNotValidException exception){
@@ -86,9 +96,7 @@ public class EcommerceDemoApplication {
 	}
 
 }
-// Unit Test => Mock, Business Kodlar (SALI)
-// Kodu kodla test etmek
-
-// sana hali hazırda bir kategori verdiğimde bana "bu kategori zaten mevcut" exceptionı fırlat
-// Mocklama
-// Mock Object
+// Many-To-Many
+// Validation handler ve messageSource
+// Ana dosya refactorü
+// Multi-language args

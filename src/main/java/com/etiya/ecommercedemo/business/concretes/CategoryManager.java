@@ -3,9 +3,12 @@ package com.etiya.ecommercedemo.business.concretes;
 import com.etiya.ecommercedemo.business.abstracts.CategoryService;
 import com.etiya.ecommercedemo.business.constants.Messages;
 import com.etiya.ecommercedemo.business.dtos.requests.category.AddCategoryRequest;
+import com.etiya.ecommercedemo.business.dtos.requests.category.UpdateCategoryRequest;
 import com.etiya.ecommercedemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.category.ListCategoryResponse;
+import com.etiya.ecommercedemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommercedemo.core.exceptions.BusinessException;
+import com.etiya.ecommercedemo.core.exceptions.NotFoundException;
 import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.core.utils.result.*;
 import com.etiya.ecommercedemo.entities.concrete.Category;
@@ -16,6 +19,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +27,6 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
     private CategoryDao categoryDao;
     private ModelMapperService modelMapperService;
-
     private MessageSource messageSource;
 
 
@@ -34,6 +37,7 @@ public class CategoryManager implements CategoryService {
         // category ismi 3 haneden büyük olmalıdır?
         // Never Trust User Input
         return categoryDao.getAll();
+        //return new ArrayList<>();
     }
 
     @Override
@@ -67,12 +71,36 @@ public class CategoryManager implements CategoryService {
         return new ErrorResult();
     }
 
+    @Override
+    public DataResult<UpdateCategoryResponse> update(UpdateCategoryRequest updateCategoryRequest) {
+        // verilen id ile bir kategori olup olmadığına bakmak
+        // bu id'ye sahip kategoriyi getirmek
+        // name alanını set etmek
+        //checkIfCategoryWithIdExists(updateCategoryRequest.getId());
+        Category category = categoryDao.findById(updateCategoryRequest.getId())
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage(Messages.Category.CategoryDoesNotExistsWithGivenId,null, LocaleContextHolder.getLocale())));
+        checkIfCategoryWithSameNameExists(updateCategoryRequest.getName());
+
+        //TODO: Mapper
+        category.setName(updateCategoryRequest.getName());
+        categoryDao.save(category);
+
+        UpdateCategoryResponse response = modelMapperService.getMapper().map(category, UpdateCategoryResponse.class);
+        return new SuccessDataResult<>(response);
+    }
+
     // iş kuralı
     // İŞ KURALI METODLARI AYRI OLMALI
     // aynı isimde 2 kategori olamaz.
 
     // Magic String =  xFonksiyonu("Deneme")
     // Constants.java => (Sabitler)
+
+    private void checkIfCategoryWithIdExists(int categoryId){
+        if(!categoryWithIdShouldExists(categoryId).isSuccess())
+            throw new BusinessException(messageSource.getMessage(Messages.Category.CategoryDoesNotExistsWithGivenId,null, LocaleContextHolder.getLocale()));
+    }
+
     private void checkIfCategoryWithSameNameExists(String categoryName){
         Category categoryToFind = categoryDao.findByName(categoryName);
         if(categoryToFind != null)
