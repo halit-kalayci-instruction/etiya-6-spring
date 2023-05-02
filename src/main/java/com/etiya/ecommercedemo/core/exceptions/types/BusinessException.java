@@ -1,4 +1,4 @@
-package com.etiya.ecommercedemo.core.exceptions;
+package com.etiya.ecommercedemo.core.exceptions.types;
 
 public class BusinessException extends RuntimeException{
     public BusinessException(String message){

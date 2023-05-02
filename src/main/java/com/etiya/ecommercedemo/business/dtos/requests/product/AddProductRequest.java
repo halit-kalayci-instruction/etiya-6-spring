@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AddProductRequest {
-    @NotBlank(message = "nameMustNotBeEmpty")
-    @NotNull(message = "Name alanı boş bırakılamaz.")
-    @Size(min = 2, message = "Name alanı 2 karakterden kısa olamaz.")
+    @NotBlank(message = "{nameMustNotBeEmpty}")
+    @NotNull(message = "{nameMustNotBeEmpty}")
+    @Size(min = 5, max=30, message = "{nameMustBeBetween}")
     private String name;
     @Min(1)
     private double unitPrice;

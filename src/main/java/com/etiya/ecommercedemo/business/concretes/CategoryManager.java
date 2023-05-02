@@ -7,19 +7,21 @@ import com.etiya.ecommercedemo.business.dtos.requests.category.UpdateCategoryReq
 import com.etiya.ecommercedemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.category.UpdateCategoryResponse;
-import com.etiya.ecommercedemo.core.exceptions.BusinessException;
-import com.etiya.ecommercedemo.core.exceptions.NotFoundException;
+import com.etiya.ecommercedemo.core.exceptions.types.BusinessException;
+import com.etiya.ecommercedemo.core.exceptions.types.NotFoundException;
+import com.etiya.ecommercedemo.core.internationalization.MessageService;
 import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.core.utils.result.*;
 import com.etiya.ecommercedemo.entities.concrete.Category;
 import com.etiya.ecommercedemo.repositories.abstracts.CategoryDao;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +29,7 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
     private CategoryDao categoryDao;
     private ModelMapperService modelMapperService;
-    private MessageSource messageSource;
+    private MessageService messageService;
 
 
     @Override
@@ -38,6 +40,11 @@ public class CategoryManager implements CategoryService {
         // Never Trust User Input
         return categoryDao.getAll();
         //return new ArrayList<>();
+    }
+
+    @Override
+    public DataResult<Slice<ListCategoryResponse>> getAllWithPagination(Pageable pageable) {
+        return new SuccessDataResult<>(categoryDao.getAll(pageable));
     }
 
     @Override
@@ -78,7 +85,7 @@ public class CategoryManager implements CategoryService {
         // name alanını set etmek
         //checkIfCategoryWithIdExists(updateCategoryRequest.getId());
         Category category = categoryDao.findById(updateCategoryRequest.getId())
-                .orElseThrow(() -> new NotFoundException(messageSource.getMessage(Messages.Category.CategoryDoesNotExistsWithGivenId,null, LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException(messageService.getMessageWithParams(Messages.Category.CategoryDoesNotExistsWithGivenId, updateCategoryRequest.getId())));
         checkIfCategoryWithSameNameExists(updateCategoryRequest.getName());
 
         //TODO: Mapper
@@ -98,12 +105,12 @@ public class CategoryManager implements CategoryService {
 
     private void checkIfCategoryWithIdExists(int categoryId){
         if(!categoryWithIdShouldExists(categoryId).isSuccess())
-            throw new BusinessException(messageSource.getMessage(Messages.Category.CategoryDoesNotExistsWithGivenId,null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageService.getMessage(Messages.Category.CategoryDoesNotExistsWithGivenId));
     }
 
     private void checkIfCategoryWithSameNameExists(String categoryName){
         Category categoryToFind = categoryDao.findByName(categoryName);
         if(categoryToFind != null)
-            throw new BusinessException(messageSource.getMessage(Messages.Category.CategoryExists,null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageService.getMessage(Messages.Category.CategoryExists));
     }
 }

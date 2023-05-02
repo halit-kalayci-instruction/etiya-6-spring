@@ -7,20 +7,15 @@ import com.etiya.ecommercedemo.business.dtos.requests.product.AddProductRequest;
 import com.etiya.ecommercedemo.business.dtos.responses.product.AddProductResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.product.ListProductResponse;
 import com.etiya.ecommercedemo.business.dtos.responses.product.ProductDetailResponse;
-import com.etiya.ecommercedemo.core.exceptions.BusinessException;
-import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperManager;
+import com.etiya.ecommercedemo.core.exceptions.types.BusinessException;
 import com.etiya.ecommercedemo.core.utils.mapping.ModelMapperService;
 import com.etiya.ecommercedemo.core.utils.result.DataResult;
 import com.etiya.ecommercedemo.core.utils.result.Result;
 import com.etiya.ecommercedemo.core.utils.result.SuccessDataResult;
-import com.etiya.ecommercedemo.entities.concrete.Category;
 import com.etiya.ecommercedemo.entities.concrete.Product;
-import com.etiya.ecommercedemo.repositories.abstracts.CategoryDao;
 import com.etiya.ecommercedemo.repositories.abstracts.ProductDao;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
 
